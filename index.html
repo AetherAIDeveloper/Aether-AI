@@ -38,6 +38,8 @@ svg.i{width:1em;height:1em;flex:none}
 .btn.p:hover{box-shadow:0 12px 40px rgba(139,131,255,.55)}
 .btn.d{background:var(--dc);border-color:var(--dc);color:#fff}
 .btn.sm{padding:.55rem 1rem;font-size:.9rem}
+[hidden]{display:none!important}
+.swap{background:none;border:0;padding:0;font:inherit;color:var(--a2);text-decoration:underline;cursor:pointer}
 
 /* hero */
 .hero{position:relative;text-align:center;padding:5rem 0 2rem;isolation:isolate}
@@ -184,10 +186,10 @@ section{padding:4rem 0}}
     <h1><span class="grad">Your AI,<br>on your desktop.</span></h1>
     <p class="lead">A fast, beautiful assistant with a calm dark design. Three models, and it can read almost any file you give it.</p>
     <div class="acts">
-      <a class="btn p" href="#download"><svg class="i"><use href="#win"/></svg> Download for Windows</a>
+      <a class="btn p" href="#download"><svg class="i"><use id="heroico" href="#win"/></svg> <span data-d="Download for Windows" data-m="Download for Android">Download for Windows</span></a>
       <a class="btn d" href="https://discord.gg/epUSZd2kcQ" target="_blank" rel="noopener"><svg class="i"><use href="#dc"/></svg> Join the Discord</a>
     </div>
-    <p class="fine">Windows 10 and 11</p>
+    <p class="fine"><span data-d="Windows 10 and 11" data-m="Android phones and tablets">Windows 10 and 11</span></p>
   </div>
 </div>
 
@@ -263,20 +265,27 @@ section{padding:4rem 0}}
     <div>
       <span class="eyebrow">Download</span>
       <h2>Download Aether AI</h2>
-      <p class="sub">Version 1.1.0 for Windows 10 and 11. Choose whichever mirror works best for you.</p>
+      <p class="sub"><span data-d="Version 1.1.0 for Windows 10 and 11. Choose whichever mirror works best for you." data-m="The Android app. Choose whichever mirror works best for you.">Version 1.1.0 for Windows 10 and 11. Choose whichever mirror works best for you.</span></p>
       <div class="acts">
-        <a class="btn p" href="https://bit.ly/AetherAI-MediaFire" target="_blank" rel="noopener"><svg class="i"><use href="#dl"/></svg> Download from MediaFire</a>
-        <a class="btn" href="https://bit.ly/AetherAI-Mega" target="_blank" rel="noopener"><svg class="i"><use href="#dl"/></svg> Download from Mega</a>
+        <a class="btn p" href="https://bit.ly/AetherAI-MediaFire" data-hd="https://bit.ly/AetherAI-MediaFire" data-hm="https://bit.ly/AetherAI-Mobile-MegaFire" target="_blank" rel="noopener"><svg class="i"><use href="#dl"/></svg> Download from MediaFire</a>
+        <a class="btn" href="https://bit.ly/AetherAI-Mega" data-hd="https://bit.ly/AetherAI-Mega" data-hm="https://bit.ly/AetherAI-Mobile-Mega" target="_blank" rel="noopener"><svg class="i"><use href="#dl"/></svg> Download from Mega</a>
       </div>
-      <p class="fine">Source code and details are on <a href="https://github.com/AetherAIDeveloper/Aether-AI" target="_blank" rel="noopener">GitHub</a>.</p>
+      <p class="fine"><span id="plat"></span> <button class="swap" id="swap" type="button"></button></p>
+      <p class="fine" style="margin-top:.4rem">Source code and details are on <a href="https://github.com/AetherAIDeveloper/Aether-AI" target="_blank" rel="noopener">GitHub</a>.</p>
     </div>
     <div>
-      <ol class="stp">
+      <ol class="stp" data-only="d">
         <li><span>Download <strong>Aether AI Setup 1.1.0.exe</strong> from either mirror.</span></li>
         <li><span>Run it. Aether installs in seconds and adds a Start menu entry and desktop shortcut.</span></li>
         <li><span>Open <strong>Aether AI</strong> and start chatting.</span></li>
       </ol>
-      <div class="warn"><h3>"Windows protected your PC"?</h3><span style="color:var(--muted);font-size:.95rem">That message appears for new apps without a paid signing certificate. Click <strong style="color:var(--text)">More info</strong>, then <strong style="color:var(--text)">Run anyway</strong>. Antivirus flagged it? Unsigned apps sometimes trigger false alarms, and the source is public on GitHub.</span></div>
+      <div class="warn" data-only="d"><h3>"Windows protected your PC"?</h3><span style="color:var(--muted);font-size:.95rem">That message appears for new apps without a paid signing certificate. Click <strong style="color:var(--text)">More info</strong>, then <strong style="color:var(--text)">Run anyway</strong>. Antivirus flagged it? Unsigned apps sometimes trigger false alarms, and the source is public on GitHub.</span></div>
+      <ol class="stp" data-only="m" hidden>
+        <li><span>Download the <strong>Aether AI</strong> app (.apk file) from either mirror.</span></li>
+        <li><span>Open the file. If Android asks, allow installs from your browser or file manager.</span></li>
+        <li><span>Open <strong>Aether AI</strong> and start chatting.</span></li>
+      </ol>
+      <div class="warn" data-only="m" hidden><h3>Android blocked the install?</h3><span style="color:var(--muted);font-size:.95rem">Android warns about apps that don't come from the Play Store. Tap <strong style="color:var(--text)">Settings</strong> in the prompt and allow installs from your browser, then go back and tap <strong style="color:var(--text)">Install</strong>. If Play Protect asks, choose <strong style="color:var(--text)">More details</strong>, then <strong style="color:var(--text)">Install anyway</strong>. The source is public on GitHub.</span></div>
     </div>
   </div>
 </div></section>
@@ -308,6 +317,16 @@ section{padding:4rem 0}}
 
 <script>
 document.getElementById('y').textContent=new Date().getFullYear();
+var ua=navigator.userAgent||'';
+var auto=/Android|iPhone|iPad|iPod|Mobile|Windows Phone/i.test(ua)||(navigator.userAgentData&&navigator.userAgentData.mobile===true)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1);
+function apply(m){
+document.querySelectorAll('[data-d]').forEach(function(e){e.textContent=m?e.dataset.m:e.dataset.d});
+document.querySelectorAll('[data-hd]').forEach(function(e){e.href=m?e.dataset.hm:e.dataset.hd});
+document.querySelectorAll('[data-only]').forEach(function(e){e.hidden=(e.dataset.only==='m')!==m});
+document.getElementById('heroico').setAttribute('href',m?'#dl':'#win');
+document.getElementById('plat').textContent=m?'Showing the Android download.':'Showing the Windows download.';
+var sw=document.getElementById('swap');sw.textContent=m?'Switch to Windows':'Switch to Android';sw.onclick=function(){apply(!m)}}
+apply(auto);
 var wl=document.getElementById('wl'),th=document.getElementById('th'),busy=false;
 function bb(c,t){var b=document.createElement('div');b.className='bb '+c;if(t)b.textContent=t;th.appendChild(b);return b}
 document.querySelectorAll('.sug button').forEach(function(btn){btn.addEventListener('click',function(){
